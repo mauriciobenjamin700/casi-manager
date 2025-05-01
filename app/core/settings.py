@@ -7,36 +7,11 @@ class Settings(BaseSettings):
     A class representing the configuration settings for the application.
     
     Attributes:
-        SHEETS (list[str]): A list of sheet names used in the application.
         SHEET_PURCHASES_COLUMNS (list[str]): A list of column names for the purchases sheet.
         SHEET_SALES_COLUMNS (list[str]): A list of column names for the sales sheet.
         MAPPING_PURCHASE_COLUMNS (dict[str, str]): A mapping of purchase column names to their corresponding keys.
         MAPPING_SALES_COLUMNS (dict[str, str]): A mapping of sales column names to their corresponding keys.
     """
-    SHEETS: list[str] = Field(
-        default=[
-            "Compras", 
-            "Produtos", 
-            "Caixa", 
-            "purchases",
-            "Janeiro",
-            "Fevereiro",
-            "Março",
-            "Abril",
-            "Maio",
-            "Junho",
-            "Julho",
-            "Agosto",
-            "Setembro",
-            "Outubro",
-            "Novembro",
-            "Dezembro",
-        ]
-    )
-    PURCHASES_SHEET_NAME: str = Field(
-        default="Compras",
-        description="Nome da aba de compras no Excel"
-    )
     SHEET_PURCHASES_COLUMNS: list[str] = Field(
         default=[
             "Data",

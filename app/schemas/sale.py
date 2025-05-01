@@ -1,7 +1,7 @@
 from pydantic import field_validator
 
-from app.backend.core.base import BaseSchema
-from app.backend.utils import format
+from app.core.base import BaseSchema
+from app.core.utils import format
 
 
 class SaleSchema(BaseSchema):

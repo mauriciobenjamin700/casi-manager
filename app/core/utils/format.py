@@ -39,9 +39,13 @@ def format_price(price: str) -> float:
         float: The formatted price.
     """
     price = str(price)
-    price.strip()
-    price.replace("$", "")
-    return float(price)
+    integer_part, decimal_part= price.split(",")
+    integer_part = "".join(filter(str.isdigit, integer_part))
+    decimal_part = "".join(filter(str.isdigit, decimal_part))
+    
+    new_price = integer_part + "." + decimal_part
+    
+    return float(new_price)
 
 
 def format_date(date: str) -> datetime:
@@ -54,9 +58,10 @@ def format_date(date: str) -> datetime:
     Returns:
         datetime: The formatted date string.
     """
-    date = str(date)
-    date = date.strip()
-    date.replace("/", "-")
+    date = str(date).strip()
+    # Substituir barras por hifens
+    date = date.replace("/", "-")
+    # Converter para datetime
     date = datetime.strptime(date, "%d-%m-%Y")
     return date
 
