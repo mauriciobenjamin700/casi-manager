@@ -1,8 +1,10 @@
+from datetime import datetime
 from pandas import DataFrame
 
 from app.core import settings
 from app.core.enums import PaymentMethods
 from app.core.utils import format
+from app.schemas.sale import SaleReport, Payment
 
 
 class SaleService:
@@ -19,6 +21,7 @@ class SaleService:
         # Filter out columns that are not in the mapping
         mapped_columns = list(settings.MAPPING_SALES_COLUMNS.values())
         self.df = self.df.loc[:, mapped_columns]  # Use .loc to avoid SettingWithCopyWarning
+        self.df = self.df.dropna(how="any", axis=0)
         
         self.__clean_date()
         self.__clean_product()
@@ -28,6 +31,69 @@ class SaleService:
         self.__clean_payment_method()
         self.__clean_seller()
         self.__clean_description()
+        
+        
+    def get_money_by_date_interval(
+        self,
+        start_date: datetime,
+        end_date: datetime
+    ) -> SaleReport:
+        """
+        Returns the total money earned in a specified date range.
+        
+        This method calculates the total money earned in the specified date range and
+        returns a SaleReport object containing the start date, end date, total money,
+        and a list of payment methods with their corresponding values.
+        
+        Args:
+            start_date (datetime): Start date of the report.
+            end_date (datetime): End date of the report.
+        Returns:
+            SaleReport: A SaleReport object containing the report data.
+        """
+        
+        print(self.df["sale_date"].unique())
+        
+        filtered_df = self.df[
+            (self.df["sale_date"] >= start_date) &
+            (self.df["sale_date"] < end_date)
+        ]
+        
+        
+        total_money = filtered_df["total_cost"].sum()
+        
+        payment_methods = (
+            filtered_df.groupby("payment_method")["total_cost"]
+            .sum()
+            .reset_index()
+            .rename(columns={"total_cost": "value"})
+        )
+        
+        payment_methods_list = [
+            Payment(method=row["payment_method"], value=float(row["value"]))
+            for _, row in payment_methods.iterrows()
+        ]
+        
+        return SaleReport(
+            start_date=start_date,
+            end_date=end_date,
+            total_money=total_money,
+            money_by_payment_method=payment_methods_list
+        )
+        
+        
+    def get_df(self) -> DataFrame:
+        """
+        Returns the cleaned DataFrame.
+        
+        This method returns the cleaned DataFrame after applying all the cleaning methods.
+        
+        Args:
+            None
+        Returns:
+            DataFrame: The cleaned DataFrame.
+        """
+        return self.df
 
     def export(self, output: str = "result.csv") -> None:
         """

@@ -1,9 +1,18 @@
+from datetime import datetime
 from app.backend.services import SaleService
 from app.core.utils.transform import google_sheet_base_url_to_df
-from app.data.sheets import MAR
+from app.data.sheets import ABRIL
 
-df = google_sheet_base_url_to_df(MAR, use_grid=True)
+df = google_sheet_base_url_to_df(ABRIL, use_grid=True)
 
 service = SaleService(df)
 
-service.export()
+result = service.get_money_by_date_interval(
+    datetime(2025, 4, 25),
+    datetime(2025, 4, 30)
+)
+
+print(result)
+
+for payment in result.money_by_payment_method:
+    print(f"Payment Method: {payment.method}, Value: {payment.value}")

@@ -58,12 +58,15 @@ def format_date(date: str) -> datetime:
     Returns:
         datetime: The formatted date string.
     """
-    date = str(date).strip()
-    # Substituir barras por hifens
-    date = date.replace("/", "-")
-    # Converter para datetime
-    date = datetime.strptime(date, "%d-%m-%Y")
-    return date
+    try:
+        date = str(date).strip()
+        # Substituir barras por hifens
+        date = date.replace("/", "-")
+        # Converter para datetime
+        date = datetime.strptime(date, "%d-%m-%Y")
+        return date
+    except Exception as e:
+        raise ValueError(f"Invalid date format: {date}. Error: {e}")
 
 
 def format_quantity(quantity: str) -> int:
@@ -76,9 +79,13 @@ def format_quantity(quantity: str) -> int:
     Returns:
         int: The formatted quantity.
     """
-    quantity = str(quantity)
-    quantity = quantity.strip()
-    return int(quantity)
+    try:
+        quantity = str(quantity)
+        quantity = quantity.strip()
+        quantity = float(quantity)  
+        return int(quantity)
+    except Exception as e:
+        raise ValueError(f"Invalid quantity format: {quantity} -> {e}.")
 
 
 def format_description(description: str) -> str:
