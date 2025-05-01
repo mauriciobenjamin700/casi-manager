@@ -29,8 +29,7 @@ class Settings(BaseSettings):
             "Quantidade",
             "Total",
             "Forma de pagamento",
-            "Vendedor",
-            "Observação"
+            "Vendedor"
         ]
     )
     MAPPING_PURCHASE_COLUMNS: dict[str, str] = Field(
@@ -50,8 +49,7 @@ class Settings(BaseSettings):
             "Quantidade": "quantity",
             "Total": "total_cost",
             "Forma de pagamento": "payment_method",
-            "Vendedor": "seller",
-            "Observação": "description"
+            "Vendedor": "seller"
         }
     )
     

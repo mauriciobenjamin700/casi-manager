@@ -7,9 +7,11 @@ df = google_sheet_base_url_to_df(ABRIL, use_grid=True)
 
 service = SaleService(df)
 
+date = datetime(2025, 4, 30)
+
 result = service.get_money_by_date_interval(
-    datetime(2025, 4, 25),
-    datetime(2025, 4, 30)
+    date,
+    date
 )
 
 print(result)

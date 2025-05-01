@@ -30,7 +30,6 @@ class SaleService:
         self.__clean_total_cost()
         self.__clean_payment_method()
         self.__clean_seller()
-        self.__clean_description()
         
         
     def get_money_by_date_interval(
@@ -52,11 +51,9 @@ class SaleService:
             SaleReport: A SaleReport object containing the report data.
         """
         
-        print(self.df["sale_date"].unique())
-        
         filtered_df = self.df[
             (self.df["sale_date"] >= start_date) &
-            (self.df["sale_date"] < end_date)
+            (self.df["sale_date"] <= end_date)
         ]
         
         
@@ -201,19 +198,3 @@ class SaleService:
             None
         """
         self.df["seller"] = self.df["seller"].map(lambda x: format.format_name(x))
-        
-        
-    def __clean_description(self) -> None:
-        """
-        Cleans the description column in the DataFrame.
-        
-        This method standardizes the description values in the DataFrame by removing specific
-        characters and converting them to uppercase.
-        
-        Args:
-            None
-        """
-        self.df["description"] = self.df["description"].map(
-            lambda x: format.format_name(x)
-            if isinstance(x, str) else None
-        )
