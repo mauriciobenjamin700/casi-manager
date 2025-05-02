@@ -52,6 +52,17 @@ class Settings(BaseSettings):
             "Vendedor": "seller"
         }
     )
+    MAPPING_SALES_COLUMNS_INVERTED: dict[str, str] = Field(
+        default={
+            "sale_date": "Data",
+            "product": "Produto",
+            "price": "Valor unitário",
+            "quantity": "Quantidade",
+            "total_cost": "Total",
+            "payment_method": "Forma de pagamento",
+            "seller": "Vendedor"
+        }
+    )
     
     
 settings = Settings()

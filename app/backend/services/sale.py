@@ -1,7 +1,6 @@
 from datetime import datetime
 from pandas import DataFrame
 
-from app.core import settings
 from app.core.enums import PaymentMethods
 from app.core.utils import format
 from app.schemas.sale import SaleReport, Payment
@@ -27,19 +26,8 @@ class SaleService:
             Exports the cleaned DataFrame to a CSV file.
     """
     def __init__(self, df: DataFrame) -> None:
-        self.df = df
         
-        # Clean column names by removing leading and trailing whitespace
-        self.df.columns = self.df.columns.str.strip()
-        # Rename columns based on the mapping defined in settings
-        self.df.rename(
-            columns=settings.MAPPING_SALES_COLUMNS,
-            inplace=True,
-        )
-        # Filter out columns that are not in the mapping
-        mapped_columns = list(settings.MAPPING_SALES_COLUMNS.values())
-        self.df = self.df.loc[:, mapped_columns]  # Use .loc to avoid SettingWithCopyWarning
-        self.df = self.df.dropna(how="any", axis=0)
+        self.df = format.format_sale_df_portuguese_to_english(df)
         
         self.__clean_date()
         self.__clean_product()

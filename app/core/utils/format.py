@@ -11,6 +11,10 @@ Functions:
 
 from datetime import datetime
 
+from pandas import DataFrame
+
+from app.core import settings
+
 
 def format_name(name: str) -> str:
     """
@@ -102,3 +106,46 @@ def format_description(description: str) -> str:
     description = description.strip()
     description = description.capitalize()
     return description
+
+
+def format_sale_df_portuguese_to_english(df: DataFrame) -> DataFrame:
+    """
+    Format a DataFrame by renaming columns from Portuguese to English.
+    
+    Args:
+        df (pd.DataFrame): The DataFrame to format.
+        
+    Returns:
+        pd.DataFrame: The formatted DataFrame.
+    """
+
+    df.columns = df.columns.str.strip()
+
+    df = df.rename(
+        columns=settings.MAPPING_SALES_COLUMNS
+    )
+    # Filter out columns that are not in the mapping
+    mapped_columns = list(settings.MAPPING_SALES_COLUMNS.values())
+    df = df.loc[:, mapped_columns]  # Use .loc to avoid SettingWithCopyWarning
+    df = df.dropna(how="any", axis=0)
+    
+    return df
+
+
+def format_sale_df_english_to_portuguese(df: DataFrame) -> DataFrame:
+    """
+    Format a DataFrame by renaming columns from English to Portuguese.
+    
+    Args:
+        df (pd.DataFrame): The DataFrame to format.
+        
+    Returns:
+        pd.DataFrame: The formatted DataFrame.
+    """
+    df = df.rename(
+        columns=settings.MAPPING_SALES_COLUMNS_INVERTED
+    )
+    
+    df["Data"] = df["Data"].map(lambda x: x.strftime("%d/%m/%Y"))
+    
+    return df
