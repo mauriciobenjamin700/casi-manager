@@ -8,6 +8,24 @@ from app.schemas.sale import SaleReport, Payment
 
 
 class SaleService:
+    """
+    Service class for handling sales data.
+    This class provides methods to clean and process sales data, including
+    filtering by date, calculating total money earned, and exporting the data.
+    
+    Methods:
+        __init__(self, df: DataFrame) -> None:
+            Initializes the SaleService with a DataFrame.
+        
+        get_money_by_date_interval(self, start_date: datetime, end_date: datetime) -> SaleReport:
+            Returns the total money earned in a specified date range.
+        
+        get_df(self) -> DataFrame:
+            Returns the cleaned DataFrame.
+        
+        export(self, output: str = "result.csv") -> None:
+            Exports the cleaned DataFrame to a CSV file.
+    """
     def __init__(self, df: DataFrame) -> None:
         self.df = df
         
