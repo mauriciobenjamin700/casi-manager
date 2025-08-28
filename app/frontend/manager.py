@@ -44,8 +44,8 @@ def page():
         return df
 
     st.sidebar.header("Selecionar Base de Dados")
-    
-    OPTIONS = ["MARÇO", "ABRIL", "MAIO"]
+
+    OPTIONS = ["MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO"]
     selected_month = st.sidebar.radio(
         "Escolha o mês:",
         options=OPTIONS

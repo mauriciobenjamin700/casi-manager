@@ -86,6 +86,7 @@ def format_quantity(quantity: str) -> int:
     try:
         quantity = str(quantity)
         quantity = quantity.strip()
+        quantity = quantity.replace(",", ".")
         quantity = float(quantity)  
         return int(quantity)
     except Exception as e:
