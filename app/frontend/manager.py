@@ -8,7 +8,10 @@ from app.core.utils.transform import google_sheet_base_url_to_df
 from app.data.sheets import (
     MAR,
     ABRIL,
-    MAIO
+    MAIO,
+    JUNHO,
+    JULHO,
+    AGOSTO
 )
 
 def page():
@@ -28,6 +31,12 @@ def page():
             url = ABRIL
         elif option == "MAIO":
             url = MAIO
+        elif option == "JUNHO":
+            url = JUNHO
+        elif option == "JULHO":
+            url = JULHO
+        elif option == "AGOSTO":
+            url = AGOSTO
         else:
             url = MAR
             
